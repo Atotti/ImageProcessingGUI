@@ -1,8 +1,14 @@
 import cv2
 import matplotlib.pyplot as plt
 
-from filters import (bilateral, gaussian, high_pass_filter, low_pass_filter,
-                     median, sobel)
+from filters import (
+    bilateral,
+    gaussian,
+    high_pass_filter,
+    low_pass_filter,
+    median,
+    sobel,
+)
 
 img_path = "image/IMG_2429.JPG"
 method = low_pass_filter

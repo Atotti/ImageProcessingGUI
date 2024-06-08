@@ -1,12 +1,30 @@
-from tkinter import (HORIZONTAL, NW, Button, Canvas, IntVar, Label, OptionMenu,
-                     Radiobutton, Scale, StringVar, Tk, filedialog)
+from tkinter import (
+    HORIZONTAL,
+    NW,
+    Button,
+    Canvas,
+    IntVar,
+    Label,
+    OptionMenu,
+    Radiobutton,
+    Scale,
+    StringVar,
+    Tk,
+    filedialog,
+)
 
 import cv2
 import numpy as np
 from PIL import Image, ImageTk
 
-from filters import (bilateral, gaussian, high_pass_filter, low_pass_filter,
-                     median, sobel)
+from filters import (
+    bilateral,
+    gaussian,
+    high_pass_filter,
+    low_pass_filter,
+    median,
+    sobel,
+)
 
 
 class ImageEditor:
