@@ -15,6 +15,7 @@ class ImageEditor:
         self.image = None
         self.tk_image = None
         self.cv_image = None
+        self.original_cv_image = None  # To store the original image
 
         self.filter_type = StringVar(root)
         self.filter_type.set("bilateral")  # default value
@@ -42,6 +43,10 @@ class ImageEditor:
         self.apply_button = Button(self.control_frame, text="Apply Filter", command=self.apply_filter)
         self.apply_button.pack()
 
+        # Clear filter button
+        self.clear_button = Button(self.control_frame, text="Clear Filter", command=self.clear_filter)
+        self.clear_button.pack()
+
         # Save button
         self.save_button = Button(self.control_frame, text="Save Image", command=self.save_image)
         self.save_button.pack()
@@ -62,6 +67,7 @@ class ImageEditor:
         
         self.image = Image.open(file_path)
         self.cv_image = cv2.cvtColor(np.array(self.image), cv2.COLOR_RGB2BGR)
+        self.original_cv_image = self.cv_image.copy()  # Store the original image
 
         # Resize image to fit window considering the control frame width
         max_width = self.root.winfo_screenwidth() - self.control_frame.winfo_reqwidth()
@@ -132,6 +138,16 @@ class ImageEditor:
                 filtered_image = high_pass_filter(filtered_image, cutoff_frequency=self.highpass_cutoff.get())
             
             self.cv_image[mask == 255] = filtered_image[mask == 255]
+
+        # Update the displayed image
+        self.image = Image.fromarray(cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2RGB))
+        self.image.thumbnail((self.root.winfo_screenwidth() - self.control_frame.winfo_reqwidth(), self.root.winfo_screenheight()), Image.LANCZOS)
+        self.tk_image = ImageTk.PhotoImage(self.image)
+        self.canvas.create_image(0, 0, anchor=NW, image=self.tk_image)
+
+    def clear_filter(self):
+        # Reset the image to the original
+        self.cv_image = self.original_cv_image.copy()
 
         # Update the displayed image
         self.image = Image.fromarray(cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2RGB))
