@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 from tkinter import Tk, Canvas, NW, filedialog, StringVar, OptionMenu, Scale, Label, HORIZONTAL, IntVar, Button, Radiobutton
 from PIL import Image, ImageTk
-from filters import gaussian, median, bilateral, sobel, low_pass_filter
+from filters import bilateral, median, gaussian, sobel, low_pass_filter, high_pass_filter
+
 
 class ImageEditor:
     def __init__(self, root):
@@ -26,7 +27,7 @@ class ImageEditor:
         self.control_frame.pack(side="right", fill="y")
 
         # Filter options
-        self.filter_menu = OptionMenu(self.control_frame, self.filter_type, "bilateral", "gaussian", "median", "sobel", "lowpass")
+        self.filter_menu = OptionMenu(self.control_frame, self.filter_type, "bilateral", "gaussian", "median", "sobel", "lowpass", "highpass")
         self.filter_menu.pack()
 
         # Mode options
@@ -102,6 +103,8 @@ class ImageEditor:
                 self.cv_image = sobel(self.cv_image, ksize=self.sobel_ksize.get())
             elif selected_filter == "lowpass":
                 self.cv_image = low_pass_filter(self.cv_image, cutoff_frequency=self.lowpass_cutoff.get())
+            elif selected_filter == "highpass":
+                self.cv_image = high_pass_filter(self.cv_image, cutoff_frequency=self.highpass_cutoff.get())
         elif self.mode.get() == "part" and self.points:
             # Create a mask with the selected region
             mask = np.zeros(self.cv_image.shape[:2], dtype=np.uint8)
@@ -125,6 +128,8 @@ class ImageEditor:
                 filtered_image = sobel(filtered_image, ksize=self.sobel_ksize.get())
             elif selected_filter == "lowpass":
                 filtered_image = low_pass_filter(filtered_image, cutoff_frequency=self.lowpass_cutoff.get())
+            elif selected_filter == "highpass":
+                filtered_image = high_pass_filter(filtered_image, cutoff_frequency=self.highpass_cutoff.get())
             
             self.cv_image[mask == 255] = filtered_image[mask == 255]
 
@@ -183,12 +188,18 @@ class ImageEditor:
 
             Label(self.parameters_frame, text="Kernel Size:").pack()
             Scale(self.parameters_frame, from_=1, to_=31, orient=HORIZONTAL, variable=self.sobel_ksize).pack()
-
+        
         elif selected_filter == "lowpass":
             self.lowpass_cutoff = IntVar(value=100)
 
             Label(self.parameters_frame, text="Cutoff Frequency:").pack()
             Scale(self.parameters_frame, from_=1, to_=500, orient=HORIZONTAL, variable=self.lowpass_cutoff).pack()
+
+        elif selected_filter == "highpass":
+            self.highpass_cutoff = IntVar(value=100)
+
+            Label(self.parameters_frame, text="Cutoff Frequency:").pack()
+            Scale(self.parameters_frame, from_=1, to_=500, orient=HORIZONTAL, variable=self.highpass_cutoff).pack()
 
 if __name__ == "__main__":
     root = Tk()
