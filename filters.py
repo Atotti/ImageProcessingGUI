@@ -4,15 +4,18 @@ import numpy as np
 
 def bilateral(image, d=9, sigmaColor=75, sigmaSpace=75, count=10):
     smoothed_image = image
-    for i in range(count):
+    for _ in range(count):
         smoothed_image = cv2.bilateralFilter(
             smoothed_image, d=d, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace
         )
     return smoothed_image
 
 
-def gaussian(image, ksize=5, sigmaX=0):
-    return cv2.GaussianBlur(image, (ksize, ksize), sigmaX)
+def gaussian(image, ksize=5, sigmaX=0, count=10):
+    smoothed_image = image
+    for _ in range(count):
+        smoothed_image = cv2.GaussianBlur(smoothed_image, (ksize, ksize), sigmaX)
+    return smoothed_image
 
 
 def median(image, ksize=5):

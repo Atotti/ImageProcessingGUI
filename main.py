@@ -150,6 +150,7 @@ class ImageEditor:
                     self.cv_image,
                     ksize=self.gaussian_ksize.get(),
                     sigmaX=self.gaussian_sigmaX.get(),
+                    count=self.gaussian_count.get(),
                 )
             elif selected_filter == "median":
                 self.cv_image = median(self.cv_image, ksize=self.median_ksize.get())
@@ -191,6 +192,7 @@ class ImageEditor:
                     filtered_image,
                     ksize=self.gaussian_ksize.get(),
                     sigmaX=self.gaussian_sigmaX.get(),
+                    count=self.gaussian_count.get()
                 )
             elif selected_filter == "median":
                 filtered_image = median(filtered_image, ksize=self.median_ksize.get())
@@ -294,6 +296,7 @@ class ImageEditor:
         elif selected_filter == "gaussian":
             self.gaussian_ksize = IntVar(value=5)
             self.gaussian_sigmaX = IntVar(value=0)
+            self.gaussian_count = IntVar(value=10)
 
             Label(self.parameters_frame, text="Kernel Size:").pack()
             Scale(
@@ -310,6 +313,14 @@ class ImageEditor:
                 to_=50,
                 orient=HORIZONTAL,
                 variable=self.gaussian_sigmaX,
+            ).pack()
+            Label(self.parameters_frame, text="Iterations:").pack()
+            Scale(
+                self.parameters_frame,
+                from_=1,
+                to_=20,
+                orient=HORIZONTAL,
+                variable=self.gaussian_count,
             ).pack()
 
         elif selected_filter == "median":
