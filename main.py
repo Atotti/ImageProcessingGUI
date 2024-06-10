@@ -241,8 +241,8 @@ class ImageEditor:
             filetypes=[("PNG files", "*.png"), ("All files", "*.*")],
         )
         if file_path:
-            save_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2RGB)
-            cv2.imwrite(file_path, save_image)
+            save_image = Image.fromarray(cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2RGB))
+            save_image.save(file_path)
             print(f"Image saved as {file_path}")
 
     def update_filter_parameters(self, *args):
