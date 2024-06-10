@@ -64,10 +64,10 @@ class ImageEditor:
 
         # Mode options
         Radiobutton(
-            self.control_frame, text="Part", variable=self.mode, value="part"
+            self.control_frame, text="部分選択", variable=self.mode, value="part"
         ).pack(anchor="w")
         Radiobutton(
-            self.control_frame, text="Whole", variable=self.mode, value="whole"
+            self.control_frame, text="全体に適用", variable=self.mode, value="whole"
         ).pack(anchor="w")
 
         # Filter parameters frame
@@ -76,19 +76,19 @@ class ImageEditor:
 
         # Apply button
         self.apply_button = Button(
-            self.control_frame, text="Apply Filter", command=self.apply_filter
+            self.control_frame, text="フィルタを適用", command=self.apply_filter
         )
         self.apply_button.pack()
 
         # Clear filter button
         self.clear_button = Button(
-            self.control_frame, text="Clear Filter", command=self.clear_filter
+            self.control_frame, text="フィルタをクリア", command=self.clear_filter
         )
         self.clear_button.pack()
 
         # Save button
         self.save_button = Button(
-            self.control_frame, text="Save Image", command=self.save_image
+            self.control_frame, text="画像を保存", command=self.save_image
         )
         self.save_button.pack()
 
